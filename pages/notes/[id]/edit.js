@@ -4,6 +4,7 @@ import Editor from 'rich-markdown-editor';
 import Link from 'next/link';
 import Router from 'next/router';
 import Autosuggest from 'react-autosuggest';
+import jwtDecode from 'jwt-decode';
 import AnnounceBar from '../../../components/Common/AnnounceBar';
 import styles from './Edit.module.scss';
 import { getBaseURL } from '../../../lib/utils/storage';
@@ -17,6 +18,7 @@ class Edit extends Component {
       title: '',
       body: '',
       tags: [],
+      isOwner: false,
       isFetching: false,
       isError: false,
       note: null,
@@ -56,10 +58,17 @@ class Edit extends Component {
     try {
       const { id } = this.props;
       const { data: { note } } = await fetchWithAuthentication(`${getBaseURL()}notes/${id}`);
-      const { title, body, tags } = note;
+      const {
+        title, body, tags, username,
+      } = note;
+
+      const { id: userId } = jwtDecode(accessToken);
+      const { data: { user } } = await fetcher(`${getBaseURL()}users/${userId}`);
+
+      const isOwner = username === user.username;
 
       this.setState((prevState) => ({
-        ...prevState, note, title, body, tags, accessToken,
+        ...prevState, note, title, body, tags, isOwner, accessToken,
       }));
     } catch (error) {
       this.setState((prevState) => ({ ...prevState, isError: true }));
@@ -288,7 +297,7 @@ class Edit extends Component {
 
   renderSuccess() {
     const {
-      title, body, isFetching, tags, collaboratorId, suggestions,
+      title, body, isFetching, tags, isOwner, collaboratorId, suggestions,
     } = this.state;
 
     const inputProps = {
@@ -346,6 +355,7 @@ class Edit extends Component {
               />
             </div>
 
+            {isOwner && (
             <div className={styles.edit_page__collaboration}>
               <h3>Collaboration</h3>
               <p>User Id</p>
@@ -363,6 +373,7 @@ class Edit extends Component {
                 <button type="button" onClick={this.onDeleteCollaboration}>Remove</button>
               </div>
             </div>
+            )}
 
             <div className={styles.edit_page__action}>
               <button
@@ -373,6 +384,7 @@ class Edit extends Component {
               >
                 Save Note
               </button>
+              {isOwner && (
               <button
                 className={styles.delete_button}
                 type="button"
@@ -380,6 +392,7 @@ class Edit extends Component {
               >
                 Delete Note
               </button>
+              )}
             </div>
           </section>
         </main>
