@@ -27,6 +27,7 @@ class Edit extends Component {
 
     this.contentEditable = React.createRef();
 
+    this.handleBack = this.handleBack.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleTagsChange = this.handleTagsChange.bind(this);
     this.handleBodyChange = this.handleBodyChange.bind(this);
@@ -87,6 +88,13 @@ class Edit extends Component {
       ...prevState,
       body: body === '\\\n' ? '' : body,
     }));
+  }
+
+  handleBack() {
+    const { id } = this.props;
+    if (window) {
+      window.location.href = `/notes/${id}`;
+    }
   }
 
   async handleUpdateNote() {
@@ -300,6 +308,16 @@ class Edit extends Component {
         </Head>
         <AnnounceBar />
         <main className={styles.edit_page}>
+          <section className={styles.edit_page__navigation}>
+            <button
+              className={styles.back_button}
+              type="button"
+              onClick={this.handleBack}
+            >
+              <img src="/icon/back.svg" alt="Back" />
+              <span>Cancel</span>
+            </button>
+          </section>
           <section className={styles.edit_page__content}>
             <header className={styles.edit_page__header}>
               <input

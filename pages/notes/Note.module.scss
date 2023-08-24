@@ -1,11 +1,32 @@
 .detail_page {
 
+  .detail_page__navigation {
+    display: flex;
+    max-width: 900px;
+    width: 90%;
+    margin: 60px auto 0 auto;
+
+    .back_button {
+      background-color: transparent;
+      cursor: pointer;
+      font-size: 16px;
+      border: 0;
+
+      img {
+        width: 20px;
+        color: black;
+        margin-right: 4px;
+        vertical-align: text-bottom;
+      }
+    }
+  }
+
   .detail_page__content {
     display: flex;
     flex-direction: column;
     max-width: 900px;
     width: 90%;
-    margin: 120px auto 0 auto;
+    margin: 30px auto 0 auto;
 
     .detail_page__header {
       margin-bottom: 16px;

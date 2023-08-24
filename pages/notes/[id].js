@@ -74,6 +74,20 @@ class Note extends Component {
         </Head>
         <AnnounceBar host="/" />
         <main className={styles.detail_page}>
+          <section className={styles.detail_page__navigation}>
+            <button
+              className={styles.back_button}
+              type="button"
+              onClick={() => {
+                if (window) {
+                  window.location.href = '/';
+                }
+              }}
+            >
+              <img src="/icon/back.svg" alt="Back" />
+              <span>Back</span>
+            </button>
+          </section>
           <section className={styles.detail_page__content}>
             <header className={styles.detail_page__header}>
               <h2 className={styles.detail_page__title}>{title}</h2>

@@ -1,11 +1,31 @@
 .edit_page {
 
+  .edit_page__navigation {
+    display: flex;
+    max-width: 900px;
+    width: 90%;
+    margin: 60px auto 0 auto;
+
+    .back_button {
+      background-color: transparent;
+      cursor: pointer;
+      font-size: 16px;
+
+      img {
+        width: 20px;
+        color: black;
+        margin-right: 4px;
+        vertical-align: text-bottom;
+      }
+    }
+  }
+
   .edit_page__content {
     display: flex;
     flex-direction: column;
     width: 90%;
     max-width: 900px;
-    margin: 120px auto 0 auto;
+    margin: 30px auto 0 auto;
 
     .edit_page__header {
       margin-bottom: 16px;
